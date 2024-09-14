@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://api.brawlstars.com/v1/$1"
-    }
-  ]
-}
