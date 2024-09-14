@@ -1,5 +1,5 @@
 const API_URL = "https://api.edenai.run/v1/completion";
-const API_KEY = process.env.AI_KEY;  // GitHub Secret for AI Key
+const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzIxZWU0ZDktNmEyYi00MzdiLWJiMmQtNGNiNzg4N2Y0MGU3IiwidHlwZSI6ImFwaV90b2tlbiJ9.0O7oCzxVNwap4uAG9-rFUo919VkHQ94R4h2ednJ-g_w";
 
 const startingElements = [
     { name: 'Water', emoji: '💧' },
@@ -12,7 +12,7 @@ let selectedElements = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const elementsContainer = document.getElementById('elements-container');
-    
+
     // Display starting elements
     startingElements.forEach(element => {
         const elementDiv = document.createElement('div');
@@ -25,10 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         elementDiv.addEventListener('click', () => {
             if (selectedElements.includes(element.name)) {
                 selectedElements = selectedElements.filter(el => el !== element.name);
-                elementDiv.style.border = 'none';
-            } else {
+                elementDiv.classList.remove('selected');
+            } else if (selectedElements.length < 2) {
                 selectedElements.push(element.name);
-                elementDiv.style.border = '2px solid blue';
+                elementDiv.classList.add('selected');
             }
         });
     });
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedElements = [];
             resetSelection();
         } else {
-            alert('Select two elements to combine!');
+            alert('Please select two elements to combine!');
         }
     });
 });
@@ -71,16 +71,13 @@ async function getAICombination(combination) {
 
 // Display the result on UI
 function displayResult(result) {
-    const resultContainer = document.getElementById('results-container');
-    const resultDiv = document.createElement('div');
-    resultDiv.classList.add('result-item');
-    resultDiv.textContent = result;
-    resultContainer.appendChild(resultDiv);
+    const newElementsContainer = document.getElementById('new-elements');
+    newElementsContainer.textContent = result;
 }
 
 // Reset element selection
 function resetSelection() {
     document.querySelectorAll('.element').forEach(el => {
-        el.style.border = 'none';
+        el.classList.remove('selected');
     });
 }
